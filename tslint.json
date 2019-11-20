@@ -83,6 +83,12 @@
       "app",
       "page",
       "kebab-case"
-    ]
+	 ],
+	 "indent": [
+		true,
+		"tabs",
+		4
+	  ],
+	  "one-line": [false, "check-open-brace"]
   }
 }

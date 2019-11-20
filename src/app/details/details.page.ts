@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { EventResponse, EmergencyEvent, Acknowledgement } from '../interfaces';
+import { ActivatedRoute } from '@angular/router';
+import { EventsService } from '../events.service';
 
 @Component({
   selector: 'app-details',
@@ -6,10 +9,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage implements OnInit {
+	eventId: number;
+	eventResponse: EventResponse;
+	event: EmergencyEvent;
+	ecknowledgements: Acknowledgement[] = [];
+	newNote = '';
 
-  constructor() { }
+  constructor(
+	  private route: ActivatedRoute,
+	  private eventService: EventsService
+  ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+	  this.eventId = +this.route.snapshot.params['eventId'];
+	  this.eventResponse = await this.eventService.getById(this.eventId).toPromise();
+	  this.event = this.eventResponse.event;
+	  this.ecknowledgements = await this.eventService.getAcknowledgement(this.eventResponse).toPromise();
   }
 
 }
